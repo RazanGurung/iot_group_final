@@ -4,7 +4,7 @@
 #include <ESP8266HTTPClient.h>
 #include <Servo.h>
 #include<SoftwareSerial.h>
-SoftwareSerial s(3,1);
+SoftwareSerial s(12,14);
 Servo myservo;
 Servo uservo;
 
@@ -13,14 +13,14 @@ FirebaseData firebase;
 int state;
 int fstate;
 
-const char* ssid = "Anil";
-const char* password = "123456789";
+const char* ssid = "ryanwifi";
+const char* password = "Password@2147";
 #define FIREBASE_HOST "iotgroup-9df93-default-rtdb.firebaseio.com"
 #define FIREBASE_AUTH "rmD2k2TMVkWtaH12bGSm2hvCmnH7Ee5fqvyN2tWs"
 
 void setup() {
- Serial.begin(19200);
-  //s.begin(115200);
+ Serial.begin(9600);
+ s.begin(9600);
   Serial.print("Wifi connecting to ");
   Serial.println( ssid );
 
@@ -32,6 +32,7 @@ void setup() {
   while ( WiFi.status() != WL_CONNECTED ) {
     delay(500);
     Serial.print(".");
+    while (!Serial) continue;
   }
   Serial.println();
 
@@ -79,4 +80,40 @@ if(fstate == 1 ){
     if(fstate == 0){
        uservo.write(0);
       }
+      StaticJsonBuffer<1000> jsonBuffer;
+  JsonObject& root = jsonBuffer.parseObject(s);
+ 
+  if (root == JsonObject::invalid())
+  {
+    return;
+  }
+  //Print the data in the serial monitor
+  Serial.println("JSON received and parsed");
+  root.prettyPrintTo(Serial);
+  Serial.println("");
+  Serial.print("RFDI ");
+  int rfid=root["rfid"];
+  Serial.println(rfid);
+  Serial.print("Heart Beat    ");
+  String heart=root["heartbeat"];
+  Serial.println(heart);
+  Serial.println("");
+  Serial.println("---------------------xxxxx--------------------");
+ Serial.println("");
+ String info1 = "Animal" + heart ;
+ Serial.println(info1);
+ String info2 = "man";
+ String data;
+ if(rfid == 1){
+    data = info1;
+  }
+   if(rfid == 2){
+    data = info2;
+  }
+   if (Firebase.setString(firebase, "SmartZooControl/RFID_INFO",data )) {
+      Serial.println("successful");
+    }
+  else {
+    Serial.println(firebase.errorReason());
+  }
 }
