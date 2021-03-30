@@ -5,6 +5,7 @@ int trigger = 6;
  int echo = 7;
  int pingTravelTime;
  int buzzer = 9;
+ int led = 10;
  
 void setup() {
     lcd.init();
@@ -13,13 +14,15 @@ void setup() {
   
   // Print a message on both lines of the LCD.
   lcd.setCursor(2,0);   //Set cursor to character 2 on line 0
-  lcd.print("Welcome To Zoo!");
+  lcd.print("Welcome To ");
   
   lcd.setCursor(2,1);   //Move cursor to character 2 on line 1
-  lcd.print("LCD Tutorial");
+  lcd.print("Smart Zoo!");
  pinMode(6,OUTPUT);
  pinMode(7,INPUT);
  pinMode(9,OUTPUT);
+ pinMode(10, OUTPUT);
+ digitalWrite(9,LOW);
  Serial.begin(9600);
 }
 
@@ -35,7 +38,9 @@ void loop() {
     Serial.println(pingTravelTime);
     if(pingTravelTime <= 500){
         digitalWrite(9,HIGH);
+        digitalWrite(10,HIGH);
         delay(1000);
         digitalWrite(9,LOW);
+        digitalWrite(10,LOW);
       }
 }

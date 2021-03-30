@@ -13,8 +13,8 @@ FirebaseData firebase;
 int state;
 int fstate;
 
-const char* ssid = "ryanwifi";
-const char* password = "Password@2147";
+const char* ssid = "pooja";
+const char* password = "12345678";
 #define FIREBASE_HOST "iotgroup-9df93-default-rtdb.firebaseio.com"
 #define FIREBASE_AUTH "rmD2k2TMVkWtaH12bGSm2hvCmnH7Ee5fqvyN2tWs"
 
@@ -75,7 +75,7 @@ void loop() {
        myservo.write(0);
       }
 if(fstate == 1 ){
-      uservo.write(180);
+      uservo.write(90);
     }
     if(fstate == 0){
        uservo.write(0);
@@ -100,9 +100,9 @@ if(fstate == 1 ){
   Serial.println("");
   Serial.println("---------------------xxxxx--------------------");
  Serial.println("");
- String info1 = "Animal" + heart ;
+ String info1 = "Tiger__1267__Chronic_Heart_Problem_" + heart ;
  Serial.println(info1);
- String info2 = "man";
+ String info2 = "Hippopotamus_374654_Good_Health_Condition_" + heart;
  String data;
  if(rfid == 1){
     data = info1;
